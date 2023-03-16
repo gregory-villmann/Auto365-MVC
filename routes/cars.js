@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// POST /cars - create a new car
+// POST /cars/new - create a new car
 router.post('/new', async (req, res) => {
     const { make, model, year, mileage, price, image } = req.body;
 
