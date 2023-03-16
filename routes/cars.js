@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
 
 // POST /cars - create a new car
 router.post('/new', async (req, res) => {
-    const { make, model, year, mileage, price } = req.body;
+    const { make, model, year, mileage, price, image } = req.body;
 
     try {
         const car = await prisma.cars.create({
@@ -49,6 +49,7 @@ router.post('/new', async (req, res) => {
                 year: parseInt(year),
                 mileage: parseInt(mileage),
                 price: parseInt(price),
+                image,
             },
         });
 

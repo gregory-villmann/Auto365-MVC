@@ -1,11 +1,9 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
 const carsRouter = require('./routes/cars');
 const cors = require('cors')
 
 const app = express();
 app.use(cors());
-const prisma = new PrismaClient();
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
