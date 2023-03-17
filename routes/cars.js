@@ -4,11 +4,26 @@ const { PrismaClient } = require('@prisma/client');
 const router = express.Router();
 const prisma = new PrismaClient();
 
-// GET /cars - get all cars
+// GET /cars - get all cars with pagination
 router.get('/', async (req, res) => {
     try {
-        const cars = await prisma.cars.findMany();
-        res.status(200).json(cars);
+        const { pageIndex, pageSize } = req.query;
+        const skip = pageIndex >= 0 ? pageIndex * pageSize : 0;
+        const carsLength = await prisma.cars.count();
+        const cars = await prisma.cars.findMany({
+            select: {
+                id: true,
+                make: true,
+                model: true,
+                year: true,
+                price: true,
+                image: true
+            },
+            skip,
+            take: parseInt(pageSize),
+        });
+
+        res.status(200).json({cars:cars, size: carsLength});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
